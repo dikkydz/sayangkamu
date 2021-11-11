@@ -41,8 +41,22 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Data 1 Minggu Terakhir</h4>
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h4 class="card-title">Data</h4>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <form action="{{ route('dashboard') }}" method="get">
+                                <input type="hidden" name="filter" value="weeks">
+                                <input type="submit" value="Minggu" class="btn btn-secondary {{Request::query('filter') === 'weeks' || Request::input('filter') === null ? 'btn-info' : ''}}">
+                            </form>
+                            <form action="{{ route('dashboard') }}" method="get">
+                                <input type="hidden" name="filter" value="months">
+                                <input type="submit" value="Bulan" class="btn btn-secondary {{Request::query('filter') === 'months' ? 'btn-info' : ''}}">
+                            </form>
+                            <form action="{{ route('dashboard') }}" method="get">
+                                <input type="hidden" name="filter" value="years">
+                                <input type="submit" value="Tahun" class="btn btn-secondary {{Request::query('filter') === 'years' ? 'btn-info' : ''}}">
+                            </form>
+                        </div>
                     </div>
                     <div class="card-body">
                         {!! $chart->container() !!}

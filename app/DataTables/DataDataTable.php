@@ -22,14 +22,18 @@ class DataDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables()
-        ->eloquent($query)
-        ->editColumn('created_at', function (Data $data) {
-            return $data->created_at->format('d/m/Y');
-        })
-        ->editColumn('updated_at', function (Data $data) {
-            return $data->updated_at->format('d/m/Y');
-        })
-        ->addColumn('action', 'app.datas._action');
+            ->eloquent($query)
+            ->editColumn('created_at', function (Data $data) {
+                return $data->created_at->format('d/m/Y');
+            })
+            ->editColumn('updated_at', function (Data $data) {
+                return $data->updated_at->format('d/m/Y');
+            })
+            ->addColumn('photo', function (Data $data) {
+                return '<a href="' . config('app.url') . $data->getFirstMediaUrl('photo') . '" target="_blank" >Lihat</a>';
+            })
+            ->addColumn('action', 'app.datas._action')
+            ->rawColumns(['action', 'photo']);
     }
 
     /**
@@ -52,7 +56,7 @@ class DataDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('datas-table')
-            ->columns($this->getColumns())      
+            ->columns($this->getColumns())
             ->minifiedAjax()
             ->orderBy(1);
     }
@@ -78,6 +82,7 @@ class DataDataTable extends DataTable
             Column::make('service_type'),
             Column::make('created_at'),
             Column::make('updated_at'),
+            Column::computed('photo'),
             Column::computed('action')
                 ->exportable(true)
                 ->printable(true)

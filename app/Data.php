@@ -4,10 +4,12 @@ namespace App;
 
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Data extends Model
+class Data extends Model implements HasMedia
 {
-    use Uuids;
+    use Uuids, HasMediaTrait;
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -24,6 +26,4 @@ class Data extends Model
     protected $fillable = [
         'registration_number', 'author', 'address', 'model', 'type', 'production_year', 'silinder', 'chassis_number', 'engine_number', 'bpkb_number', 'service_type'
     ];
-
-    
 }

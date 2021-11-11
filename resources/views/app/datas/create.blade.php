@@ -13,7 +13,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{route('datas.store')}}" method="POST">
+                        <form action="{{route('datas.store')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @include('app.datas._form')
                             <div class="form-group">

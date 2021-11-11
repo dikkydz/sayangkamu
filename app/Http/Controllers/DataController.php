@@ -46,18 +46,22 @@ class DataController extends Controller
             'author' => 'required',
             'address' => 'required',
             'model' => 'required',
-            'type' => 'required', 
+            'type' => 'required',
             'production_year' => 'required',
             'silinder' => 'required',
-            'chassis_number' => 'required', 
+            'chassis_number' => 'required',
             'engine_number' => 'required',
             'bpkb_number' => 'required',
-            'service_type' => 'required'
+            'service_type' => 'required',
+            'photo' => 'required'
         ]);
 
-        $datas = new Data($request->all());
+        $data = new Data($request->all());
+        if ($request->has('photo')) {
+            $data->addMediaFromRequest('photo')->toMediaCollection('photo');
+        }
 
-        if ($datas->save()) {
+        if ($data->save()) {
             flash()->success('Berhasil menambahkan data');
         } else {
             flash()->error('Gagal menambahkan data');
@@ -102,16 +106,22 @@ class DataController extends Controller
             'author' => 'required',
             'address' => 'required',
             'model' => 'required',
-            'type' => 'required', 
+            'type' => 'required',
             'production_year' => 'required',
             'silinder' => 'required',
-            'chassis_number' => 'required', 
+            'chassis_number' => 'required',
             'engine_number' => 'required',
             'bpkb_number' => 'required',
-            'service_type' => 'required'
+            'service_type' => 'required',
+            'photo' => 'required',
         ]);
 
         $data->fill($request->all());
+
+        if ($request->has('photo')) {
+            $data->clearMediaCollection('photo');
+            $data->addMediaFromRequest('photo')->toMediaCollection('photo');
+        }
 
         if ($data->update()) {
             flash()->success('Berhasil update data');

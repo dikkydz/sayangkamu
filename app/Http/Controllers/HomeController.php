@@ -26,20 +26,37 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        // Weekly
-        $today_datas = Data::whereDate('created_at', today())->count();
-        $yesterday_datas = Data::whereDate('created_at', today()->subDays(1))->count();
-        $datas_2_days_ago = Data::whereDate('created_at', today()->subDays(2))->count();
 
         $datas = Data::all();
 
         $temp = collect([]);
         $tempLabel = collect([]);
 
-        for ($i=6; $i >= 0; $i--) { 
-            $temp->push(Data::whereDate('created_at', today()->subDays($i))->count());
-            $tempLabel->push(today()->subDays($i)->toDateString());
+        // weekly
+        if ($request->filter === 'weeks' || !$request->has('filter')) {
+            for ($i = 6; $i >= 0; $i--) {
+                $temp->push(Data::whereDate('created_at', today()->subDays($i))->count());
+                $tempLabel->push(today()->subDays($i)->toDateString());
+            }
         }
+
+        // monthly
+        if ($request->filter === 'months') {
+            for ($i = 6; $i >= 0; $i--) {
+                $temp->push(Data::whereDate('created_at', today()->subMonth($i))->count());
+                $tempLabel->push(today()->subMonth($i)->format('M Y'));
+            }
+        }
+
+        // yearly
+        if ($request->filter === 'years') {
+            for ($i = 6; $i >= 0; $i--) {
+                $temp->push(Data::whereDate('created_at', today()->subYear($i))->count());
+                $tempLabel->push(today()->subYear($i)->format('Y'));
+            }
+        }
+
+
         $chart = new DataChart;
         $chart->labels($tempLabel);
         $chart->options([

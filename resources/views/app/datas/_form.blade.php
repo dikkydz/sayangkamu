@@ -66,3 +66,8 @@
     </select>
     @if ($errors->has('service_type')) <p class="invalid-feedback">{{ $errors->first('service_type') }}</p> @endif
 </div>
+
+<div class="form-group">
+    <label for="photo">Photo</label>
+    <input type="file" class="form-control" name="photo">
+</div>
