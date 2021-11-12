@@ -43,7 +43,7 @@ class HomeController extends Controller
         // monthly
         if ($request->filter === 'months') {
             for ($i = 6; $i >= 0; $i--) {
-                $temp->push(Data::whereDate('created_at', today()->subMonth($i))->count());
+                $temp->push(Data::whereMonth('created_at', today()->subMonths($i))->count());
                 $tempLabel->push(today()->subMonth($i)->format('M Y'));
             }
         }
@@ -51,7 +51,7 @@ class HomeController extends Controller
         // yearly
         if ($request->filter === 'years') {
             for ($i = 6; $i >= 0; $i--) {
-                $temp->push(Data::whereDate('created_at', today()->subYear($i))->count());
+                $temp->push(Data::whereYear('created_at', today()->subYears($i))->count());
                 $tempLabel->push(today()->subYear($i)->format('Y'));
             }
         }
