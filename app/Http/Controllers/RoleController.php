@@ -71,6 +71,12 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        if ($role->delete()) {
+            flash()->success("Berhasil hapus role");
+        } else {
+            flash()->error("Gagal hapus role");
+        }
+
+        return redirect()->back();
     }
 }

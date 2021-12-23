@@ -45,6 +45,11 @@
         <div class="row">
             <div class="col-12">
                 @forelse ($roles as $role)
+                    <form action="{{ route('roles.destroy', $role->id)}}" method="POST">
+                        @csrf
+                        @method("DELETE")
+                        <button type="submit" class="btn btn-danger btn-sm mb-2">Delete</button>
+                    </form>
                     {!! Form::model($role, ['method' => 'PUT', 'route' => ['roles.update', $role->id ], 'class' => 'mb-4']) !!}
 
                     @if($role->name === 'admin')
